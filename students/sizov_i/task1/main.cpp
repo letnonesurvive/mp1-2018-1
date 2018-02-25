@@ -20,14 +20,14 @@ public:
 			}
 		}
 	}
-	LongNumber operator+(const LongNumber &num)// сложение реализовано методом "В столбик"
+	LongNumber operator+(const LongNumber &cons)// сложение реализовано методом "В столбик"
 	{
 		int r = 0;
 		int temp1 = 0;
 		LongNumber t1;
 		for (int i = 0; i < 20; i++)
 		{
-			temp1 = atoi1(arr[i]) + (atoi1(num.arr[i])) + temp1;//результат сложения ячеек двух массивов
+			temp1 = atoi1(arr[i]) + (atoi1(cons.arr[i])) + temp1;//результат сложения ячеек двух массивов
 			r = temp1 % 10;//получаем остаток от числа при делениии на 10
 			if (r < 0)//вдруг остаток будет отрицателет 
 			{
@@ -38,14 +38,14 @@ public:
 			temp1 = temp1 / 10;
 		}return t1;
 	}
-	LongNumber operator-(const LongNumber &num)//тот же самый способ что и со сложением
+	LongNumber operator-(const LongNumber &cons)//тот же самый способ что и со сложением
 	{
 		int r = 0;
 		int temp1 = 0;
 		LongNumber t1;
 		for (int i = 0; i < 20; i++)
 		{
-			temp1 = atoi1(arr[i]) - (atoi1(num.arr[i])) + temp1;
+			temp1 = atoi1(arr[i]) - (atoi1(cons.arr[i])) + temp1;
 			r = temp1 % 10;
 			if (r < 0)
 			{
@@ -56,7 +56,7 @@ public:
 			temp1 = temp1 / 10;
 		}return t1;
 	}
-	LongNumber operator*(const LongNumber &num)
+	LongNumber operator*(const LongNumber &cons)
 	{
 		LongNumber t1;
 		LongNumber t2;
@@ -65,9 +65,9 @@ public:
 
 		for (int i = 0; i < 20; i++) {
 			for (int j = 0; j < 20 - i; j++) {
-				if (num.arr[i] == '0')//пропускаем нуль
+				if (cons.arr[i] == '0')//пропускаем нуль
 					continue;
-				remnant2 = atoi1(arr[j]) * atoi1(num.arr[i]);//получаем результат умножения 
+				remnant2 = atoi1(arr[j]) * atoi1(cons.arr[i]);//получаем результат умножения 
 				t1.arr[j + i] = itoa1((remnant2 += remnant1) % 10);//преобразывавает результат в массив
 				remnant1 = remnant2 / 10;
 			}
@@ -75,6 +75,125 @@ public:
 			t1 = "0";
 		}
 		return t2;
+	}
+	LongNumber operator/(LongNumber &cons)
+	{
+		if (cons == (LongNumber)"0")
+			throw;
+		int j = 20;
+		bool begin = false;
+		LongNumber answer;
+		LongNumber dividend(*this);//делимое
+		LongNumber divider(cons);//делитель
+		LongNumber dividendPart;
+		if (divider == (LongNumber)0)
+		{
+			throw "Деление на ноль не осуществимо";
+			return 0;
+		}
+		do {
+			//пока часть делимого меньше делителя
+			while (dividendPart < divider &&j--> 0)
+			{
+				dividendPart.rank();//повышаем разряд части от делимого
+				dividendPart.arr[0] = dividend.arr[j];
+				if (dividend.arr[j] != '0')
+					begin = true;
+				if ((dividendPart < divider) && begin && dividend.arr[j] != '0')
+					answer.rank();
+			}
+			while (dividendPart >= divider)
+			{
+				dividendPart = dividendPart - divider;
+				answer = answer + "1";
+			}
+			//прерываем цикл когда делимое закончилось
+			if (j < 0)
+				break;
+
+			answer.rank();
+		} while (j > 0);
+		return answer;
+	}
+	LongNumber operator%(LongNumber &cons)
+	{
+		if (cons == (LongNumber)"0")
+			throw;
+		int j = 20;
+		bool begin = false;
+		LongNumber answer;
+		LongNumber dividend(*this);//делимое
+		LongNumber divider(cons);//делитель
+		LongNumber dividendPart;
+		do {
+
+			while (dividendPart < divider &&j--> 0)
+			{
+				dividendPart.rank();//повышаем разряд части от делимого
+				dividendPart.arr[0] = dividend.arr[j];//даем первой ячейке части делимого последний элемнт делимого
+				if (dividend.arr[j] != '0')//начинаем делить , когда наткнулись на число
+					begin = true;
+				if ((dividendPart < divider) && begin && dividend.arr[j] != '0')
+					answer.rank();
+			}
+			while (dividendPart >= divider) {
+				dividendPart = dividendPart - divider;
+				answer = answer + "1";
+			}
+			if (j <= 0)
+				break;
+			answer.rank();
+		} while (j > 0);
+		answer = (*this) - answer * cons;//остаток
+		return answer;//возвращаем результат
+	}
+	bool operator==(const LongNumber &cons)//равенство чисел
+	{
+		for (int i = 20; i >= 0; i--)// если массивы не равные будем возрващать false
+		{
+			if (atoi1(arr[i]) != atoi1(cons.arr[i]))
+				return false;
+		}
+		return true;
+	}
+	LongNumber operator=(const LongNumber&cons)//присваивание
+	{
+		for (int i = 0; i <= 20; i++)
+			arr[i] = cons.arr[i];
+		return *this;
+	}
+	bool operator>(const LongNumber &cons) //проверка на меньше, нужна для деления
+	{
+		for (int i = 20; i >= 0; i--)
+		{
+
+			if (atoi1(arr[i]) > atoi1(cons.arr[i]))
+				return true;
+			if (atoi1(arr[i]) <atoi1(cons.arr[i]))
+				return false;
+		}
+		return false;//если числа равны
+	}
+	bool operator>=(const LongNumber &cons)
+	{
+		for (int i = 20; i >= 0; i--) {
+
+			if (atoi1(arr[i]) > atoi1(cons.arr[i]))
+				return true;
+			if (atoi1(arr[i]) <atoi1(cons.arr[i]))
+				return false;
+		}
+	}
+	bool operator<(const LongNumber &cons) //проверка на больше, нужна для деления
+	{
+		for (int i = 20; i >= 0; i--)
+		{
+			if (atoi1(arr[i]) <atoi1(cons.arr[i]))
+				return true;
+			if (atoi1(arr[i]) > atoi1(cons.arr[i]))
+				return false;
+		}
+		return false;
 	}
 	void print() //Будет выводить результат если число не превышает 20 символов
 	{
@@ -91,44 +210,6 @@ public:
 		}
 		else
 			cout << "Число слишком длинное" << endl;
-
-	}
-	bool operator==(const LongNumber &num)//равенство чисел
-	{
-		for (int i = 20; i >= 0; i--)// если массивы не равные будем возрващать false
-		{
-			if (atoi1(arr[i]) != atoi1(num.arr[i]))
-				return false;
-		}
-	}
-	LongNumber operator=(const LongNumber&num)//присваивание
-	{
-		for (int i = 0; i <= 20; i++)
-			arr[i] = num.arr[i];
-		return *this;
-	}
-	bool operator>(const LongNumber &num) //проверка на меньше, нужна для деления
-	{
-		for (int i = 20; i >= 0; i--)
-		{
-
-			if (atoi1(arr[i]) > atoi1(num.arr[i]))
-				return true;
-			if (atoi1(arr[i]) <atoi1(num.arr[i]))
-				return false;
-		}
-		return false;//есди числа равны
-	}
-	bool operator<(const LongNumber &num) //проверка на больше, нужна для деления
-	{
-		for (int i = 20; i >= 0; i--)
-		{
-			if (atoi1(arr[i]) <atoi1(num.arr[i]))
-				return true;
-			if (atoi1(arr[i]) > atoi1(num.arr[i]))
-				return false;
-		}
-		return false;
 	}
 private:
 	char arr[20];
@@ -165,15 +246,63 @@ private:
 		default:return '0';
 		}
 	}
+	LongNumber(int cons)
+	{
+		if (cons < 0)
+			limit = true;
+
+		for (int i = 0; i <20; i++)
+		{
+			arr[i] = itoa1(cons % 10);
+			cons /= 10;
+		}
+	}
+
+	LongNumber(long cons)
+	{
+		if (cons < 0)
+			limit = true;
+
+		for (int i = 0; i < 20; i++)
+		{
+			arr[i] = itoa1(cons % 10);
+			cons /= 10;
+		}
+	}
+
+	LongNumber(long long cons)
+	{
+		if (cons < 0)
+			limit = true;
+
+		for (int i = 0; i < 20; i++)
+		{
+			arr[i] = itoa1(cons % 10);
+			cons /= 10;
+		}
+	}
+	void rank()
+	{
+		bool minus = limit;
+		for (int i = 20; i > 0; i--)
+			arr[i] = arr[i - 1];
+		arr[0] = '0';
+		limit = minus;
+	}
 };
 void main()
 {
-	LongNumber a("11111111111111");
-	LongNumber b("2222222222");
-	LongNumber c = a*b;
-	LongNumber d = a + b;
-	LongNumber k = a - b;
-	c.print();
-	d.print();
-	k.print();
+	LongNumber a("19673577792");
+	LongNumber b("123456");
+	LongNumber c = a*b;//true 
+	LongNumber d = a + b;//true
+	LongNumber k = a - b;//true
+	LongNumber g = a / b;
+	LongNumber l = a%b;
+	/*LongNumber k1("25");
+	LongNumber k2("5");
+	LongNumber k3 = k1 / k2;
+	k3.print();*/
+	g.print();
+	l.print();
 }
