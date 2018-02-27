@@ -2,15 +2,19 @@
 #include <string>
 #include <stdlib.h>
 #include <cstdlib>
-
+#include <locale>
 using namespace std;
 
 class LongNumber
 {
 public:
-	LongNumber() {}
+	LongNumber()
+	{
+		basis();
+	}
 	LongNumber(char *str)//Конструктор данного вида принимает строку и записывает задом наперед для удобства 
 	{
+		basis();
 		if (strlen(str) <= 20)
 		{
 			for (int i = 0, j = strlen(str) - 1; i < 20 && str[j] != '\0'; i++, j--)
@@ -76,29 +80,28 @@ public:
 		}
 		return t2;
 	}
-	LongNumber operator/(LongNumber &cons)
+	LongNumber operator/(const LongNumber &cons)
 	{
-		if (cons == (LongNumber)"0")
-			throw;
+		bool start = false;
 		int j = 20;
-		bool begin = false;
 		LongNumber answer;
-		LongNumber dividend(*this);//делимое
-		LongNumber divider(cons);//делитель
 		LongNumber dividendPart;
-		if (divider > dividend)
+		LongNumber divider(cons);// Делитель
+		LongNumber dividend(*this);// Делимое
+		if (divider == (LongNumber)"0")
 		{
-			cout << "введите делимое меньше делителя" << endl;
-			exit(1);
+			throw "Деление на ноль";
+			return 0;
 		}
-		do {
-			while (dividendPart < divider && j-- > 0)
+		do
+		{
+			while (dividendPart < divider && (j--) > 0)
 			{
 				dividendPart.rank();
 				dividendPart.arr[0] = dividend.arr[j];
-				if (dividend.arr[j] != '0')//начинаем делить , когда наткнулись на число
-					begin = true;
-				if ((dividendPart < divider) && begin && dividend.arr[j] != '0')
+				if (dividend.arr[j] != '0')
+					start = true;
+				if (dividendPart < divider && start && j > 0)
 					answer.rank();
 			}
 			while (dividendPart >= divider)
@@ -112,33 +115,32 @@ public:
 		} while (j > 0);
 		return answer;
 	}
-	LongNumber operator%(LongNumber &cons)
+	LongNumber operator%(const LongNumber &cons)
 	{
-		if (cons == (LongNumber)"0")
-			throw;
+		bool start = false;
 		int j = 20;
-		bool begin = false;
 		LongNumber answer;
-		LongNumber dividend(*this);//делитель
-		LongNumber divider(cons);//делимое
 		LongNumber dividendPart;
+		LongNumber divider(cons);// Делитель
+		LongNumber dividend(*this);// Делимое
+		if (divider == (LongNumber)"0")
+		{
+			throw "Деление на ноль";
+			return 0;
+		}
 		do
 		{
-			if (divider> dividend)
-			{
-				cout << "введите делимое меньше делителя" << endl;
-				exit(1);
-			}
-			while (dividendPart < divider &&j-->0)
+			while (dividendPart < divider && j-- > 0)
 			{
 				dividendPart.rank();
 				dividendPart.arr[0] = dividend.arr[j];
 				if (dividend.arr[j] != '0')
-					begin = true;
-				if ((dividendPart < divider) && begin && dividend.arr[j] != '0')
+					start = true;
+				if (dividendPart < divider && start && j > 0)
 					answer.rank();
 			}
-			while (dividendPart >= divider) {
+			while (dividendPart >= divider)
+			{
 				dividendPart = dividendPart - divider;
 				answer = answer + "1";
 			}
@@ -146,8 +148,14 @@ public:
 				break;
 			answer.rank();
 		} while (j > 0);
-		answer = (*this) - answer * cons;//остаток
+		answer = (*this) - answer* cons;//остаток
 		return answer;
+	}
+	LongNumber& operator=(const LongNumber&cons)//присваивание
+	{
+		for (int i = 0; i <= 20; i++)
+			arr[i] = cons.arr[i];
+		return *this;
 	}
 	bool operator==(const LongNumber &cons)//равенство чисел
 	{
@@ -157,12 +165,6 @@ public:
 				return false;
 		}
 		return true;
-	}
-	LongNumber& operator=(const LongNumber&cons)//присваивание
-	{
-		for (int i = 0; i <= 20; i++)
-			arr[i] = cons.arr[i];
-		return *this;
 	}
 	bool operator>(const LongNumber &cons) //проверка на меньше, нужна для деления
 	{
@@ -210,8 +212,6 @@ public:
 					cout << arr[19 - i];
 			}cout << endl;
 		}
-		else
-			cout << "Число слишком длинное" << endl;
 		if (!impact)
 		{
 			cout << "0" << endl;
@@ -220,6 +220,11 @@ public:
 private:
 	char arr[20];
 	bool  limit = false;
+	void basis()
+	{
+		for (char i = 0; i < 20; i++)
+			arr[i] = '0';
+	}
 	int atoi1(char elem1)//функция меняет тип char на int(atoi не подходит так как не работает от массивов)
 	{
 		switch (elem1)
@@ -264,8 +269,8 @@ private:
 void main()
 {
 	setlocale(LC_ALL, "Rus");
-	LongNumber a("61728455");
-	LongNumber b("37");
+	LongNumber a("5");
+	LongNumber b("25");
 	LongNumber c = a*b;//true 
 	LongNumber d = a + b;//true
 	LongNumber k = a - b;//true
@@ -277,5 +282,6 @@ void main()
 	k3.print();*/
 	g.print();
 	//c.print();
-	l.print();
+	//g.print();
+	//l.print();
 }
