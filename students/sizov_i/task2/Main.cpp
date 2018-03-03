@@ -1,4 +1,4 @@
-#include <iostream>
+п»ї#include <iostream>
 #include <cstdlib>
 #include <ctime> 
 #include <cmath>
@@ -7,17 +7,17 @@ using namespace std;
 class Vector
 {
 private:
-	int *arr = new int[20];//создание динамического массива
+	int *arr = new int[20];//СЃРѕР·РґР°РЅРёРµ РґРёРЅР°РјРёС‡РµСЃРєРѕРіРѕ РјР°СЃСЃРёРІР°
 	int dim = 0;
 	int n;
 public:
 	Vector(int _dim = 0)
 	{
-		SetDim(10);//поменяйте размерность в случае необходимости 
+		SetDim(10);//РїРѕРјРµРЅСЏР№С‚Рµ СЂР°Р·РјРµСЂРЅРѕСЃС‚СЊ РІ СЃР»СѓС‡Р°Рµ РЅРµРѕР±С…РѕРґРёРјРѕСЃС‚Рё 
 	}
-	Vector(char str[])//конструктор как пример работы класса
+	Vector(char str[])//РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєР°Рє РїСЂРёРјРµСЂ СЂР°Р±РѕС‚С‹ РєР»Р°СЃСЃР°
 	{
-		dim = 10; ;//задаем размерность внутри кода вручную
+		dim = 10; ;//Р·Р°РґР°РµРј СЂР°Р·РјРµСЂРЅРѕСЃС‚СЊ РІРЅСѓС‚СЂРё РєРѕРґР° РІСЂСѓС‡РЅСѓСЋ
 		if (dim <= 20)
 		{
 			srand(atoi(str));
@@ -42,11 +42,11 @@ public:
 		dim = num.dim;
 		return *this;
 	}
-	void SetDim(int _dim)//устанавливаем размерность
+	void SetDim(int _dim)//СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј СЂР°Р·РјРµСЂРЅРѕСЃС‚СЊ
 	{
 		dim = _dim;
 		int i;
-		for (i = 0; i < _dim; i++)//цикл забивает нулями массив, в зависиммости от ввода размерности
+		for (i = 0; i < _dim; i++)//С†РёРєР» Р·Р°Р±РёРІР°РµС‚ РЅСѓР»СЏРјРё РјР°СЃСЃРёРІ, РІ Р·Р°РІРёСЃРёРјРјРѕСЃС‚Рё РѕС‚ РІРІРѕРґР° СЂР°Р·РјРµСЂРЅРѕСЃС‚Рё
 		{
 			arr[i] = 0;
 		}
@@ -55,24 +55,24 @@ public:
 	int *SetComponentVectors()
 	{
 		int a;
-		cin >> n;//ввод номера ячейки
+		cin >> n;//РІРІРѕРґ РЅРѕРјРµСЂР° СЏС‡РµР№РєРё
 		if (n - 1 >= dim)
 		{
 			throw;
 		}
-		cin >> a;//ввод значения компоненты
+		cin >> a;//РІРІРѕРґ Р·РЅР°С‡РµРЅРёСЏ РєРѕРјРїРѕРЅРµРЅС‚С‹
 		if (n - 1 < dim)
 			arr[n - 1] = a;
 		return arr;
 	}
-	int GetComponentVectors()//узнать значение компоненты по номеру
+	int GetComponentVectors()//СѓР·РЅР°С‚СЊ Р·РЅР°С‡РµРЅРёРµ РєРѕРјРїРѕРЅРµРЅС‚С‹ РїРѕ РЅРѕРјРµСЂСѓ
 	{
 		cin >> n;
 		if (n > dim)
 			throw;
 		return arr[n - 1];
 	}
-	double LengthOfVector()//высчитывает длинну вектора
+	double LengthOfVector()//РІС‹СЃС‡РёС‚С‹РІР°РµС‚ РґР»РёРЅРЅСѓ РІРµРєС‚РѕСЂР°
 	{
 		double temp = 0;
 		double b = 0;
@@ -91,7 +91,7 @@ public:
 			tmp.arr[i] = arr[i] + other.arr[i];
 		return tmp;
 	}
-	int Scalar(Vector v)//скалярное проивзедение 
+	int Scalar(Vector v)//СЃРєР°Р»СЏСЂРЅРѕРµ РїСЂРѕРёРІР·РµРґРµРЅРёРµ 
 	{
 		if (dim != v.dim);
 		int tmp = 0;
@@ -103,7 +103,7 @@ public:
 	{
 		cout << Scalar(v);
 	}
-	void ReturnARR()//выписывает массив с компонентами
+	void ReturnARR()//РІС‹РїРёСЃС‹РІР°РµС‚ РјР°СЃСЃРёРІ СЃ РєРѕРјРїРѕРЅРµРЅС‚Р°РјРё
 	{
 		for (int i = 0; i < dim; i++)
 			cout << "|" << arr[i] << "|";
@@ -112,20 +112,20 @@ public:
 	{
 		cout << (int)LengthOfVector();
 	}
-	void PrintComponent()//выводит на экран значение ячейки
+	void PrintComponent()//РІС‹РІРѕРґРёС‚ РЅР° СЌРєСЂР°РЅ Р·РЅР°С‡РµРЅРёРµ СЏС‡РµР№РєРё
 	{
 		cout << GetComponentVectors() << endl;
 	}
-	int GetDim()//возвращает размерность
+	int GetDim()//РІРѕР·РІСЂР°С‰Р°РµС‚ СЂР°Р·РјРµСЂРЅРѕСЃС‚СЊ
 	{
 		return  dim;
 	}
-	void PrintDim()//выводит размерность на экран
+	void PrintDim()//РІС‹РІРѕРґРёС‚ СЂР°Р·РјРµСЂРЅРѕСЃС‚СЊ РЅР° СЌРєСЂР°РЅ
 	{
 		cout << GetDim();
 	}
 };
-void DimenstionEntry(int *_dim)//это своего рода ввод размерности, после этой функции идет функция SetDim которая задает размерность вектора(размер массива)
+void DimenstionEntry(int *_dim)//СЌС‚Рѕ СЃРІРѕРµРіРѕ СЂРѕРґР° РІРІРѕРґ СЂР°Р·РјРµСЂРЅРѕСЃС‚Рё, РїРѕСЃР»Рµ СЌС‚РѕР№ С„СѓРЅРєС†РёРё РёРґРµС‚ С„СѓРЅРєС†РёСЏ SetDim РєРѕС‚РѕСЂР°СЏ Р·Р°РґР°РµС‚ СЂР°Р·РјРµСЂРЅРѕСЃС‚СЊ РІРµРєС‚РѕСЂР°(СЂР°Р·РјРµСЂ РјР°СЃСЃРёРІР°)
 {
 	cout << "Enter dimenstion" << endl;
 	cin >> *_dim;
@@ -134,24 +134,24 @@ void main()
 {
 	setlocale(LC_ALL, "rus");
 	int v = 0;
-	Vector f1("39");//вектора с рандомными компонентами
+	Vector f1("39");//РІРµРєС‚РѕСЂР° СЃ СЂР°РЅРґРѕРјРЅС‹РјРё РєРѕРјРїРѕРЅРµРЅС‚Р°РјРё
 	Vector k("289");
-	Vector l(v);//нулевой вектор
+	Vector l(v);//РЅСѓР»РµРІРѕР№ РІРµРєС‚РѕСЂ
 	f1.ReturnARR();
-	cout << "Размерность = "; f1.PrintDim(); cout << endl;
-	cout << "Узнайте значение компоненты по номеру,введите номер" << endl;
+	cout << "Р Р°Р·РјРµСЂРЅРѕСЃС‚СЊ = "; f1.PrintDim(); cout << endl;
+	cout << "РЈР·РЅР°Р№С‚Рµ Р·РЅР°С‡РµРЅРёРµ РєРѕРјРїРѕРЅРµРЅС‚С‹ РїРѕ РЅРѕРјРµСЂСѓ,РІРІРµРґРёС‚Рµ РЅРѕРјРµСЂ" << endl;
 	f1.PrintComponent();
-	cout << "Чтобы задать компоненту вектора, сначала введите номер, а затем значение" << endl;
+	cout << "Р§С‚РѕР±С‹ Р·Р°РґР°С‚СЊ РєРѕРјРїРѕРЅРµРЅС‚Сѓ РІРµРєС‚РѕСЂР°, СЃРЅР°С‡Р°Р»Р° РІРІРµРґРёС‚Рµ РЅРѕРјРµСЂ, Р° Р·Р°С‚РµРј Р·РЅР°С‡РµРЅРёРµ" << endl;
 	cout << endl;
-	f1.SetComponentVectors(); f1.ReturnARR(); cout << endl; cout << "Вы задали компоненту" << endl;
+	f1.SetComponentVectors(); f1.ReturnARR(); cout << endl; cout << "Р’С‹ Р·Р°РґР°Р»Рё РєРѕРјРїРѕРЅРµРЅС‚Сѓ" << endl;
 	cout << endl;
-	cout << "Длинна вектора = "; f1.GetLengthOfVector();
+	cout << "Р”Р»РёРЅРЅР° РІРµРєС‚РѕСЂР° = "; f1.GetLengthOfVector();
 	cout << endl; cout << endl;
 	k.ReturnARR();
 	cout << endl; cout << endl;
-	cout << "Скалярное произведение = "; f1.ReturnScalar(k);
+	cout << "РЎРєР°Р»СЏСЂРЅРѕРµ РїСЂРѕРёР·РІРµРґРµРЅРёРµ = "; f1.ReturnScalar(k);
 	l = f1 + k;
 	cout << endl; cout << endl;
-	cout << "Сумма векторов = "; l.ReturnARR();
+	cout << "РЎСѓРјРјР° РІРµРєС‚РѕСЂРѕРІ = "; l.ReturnARR();
 	system("pause");
 }
