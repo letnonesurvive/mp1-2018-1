@@ -1,4 +1,4 @@
-#include <iostream>
+п»ї#include <iostream>
 #include <string> 
 #include <conio.h>
 #include <cstdio>
@@ -6,18 +6,18 @@
 #define _CRT_SECURE_NO_WARNINGS
 #define size 100
 
-//!!! Внутри класса ничего не вводить с клавиатуры!!!\\
+//!!! Р’РЅСѓС‚СЂРё РєР»Р°СЃСЃР° РЅРёС‡РµРіРѕ РЅРµ РІРІРѕРґРёС‚СЊ СЃ РєР»Р°РІРёР°С‚СѓСЂС‹!!!\\
 
 using namespace std;
 class UserMenu
 {
 private:
 	string menu[size];
-	int commands = 0;//число команд 
-	int push = 0;//кнопка для switch
-	int x = 0; //координаты отступа
-	int y = 0;//координаты отступа
-	int ammount = 1;//отвечает за перемещение ползунка
+	int commands = 0;//С‡РёСЃР»Рѕ РєРѕРјР°РЅРґ 
+	int push = 0;//РєРЅРѕРїРєР° РґР»СЏ switch
+	int x = 0; //РєРѕРѕСЂРґРёРЅР°С‚С‹ РѕС‚СЃС‚СѓРїР°
+	int y = 0;//РєРѕРѕСЂРґРёРЅР°С‚С‹ РѕС‚СЃС‚СѓРїР°
+	int ammount = 1;//РѕС‚РІРµС‡Р°РµС‚ Р·Р° РїРµСЂРµРјРµС‰РµРЅРёРµ РїРѕР»Р·СѓРЅРєР°
 	int num = 0;
 	bool trigger = false;
 	void base()
@@ -32,11 +32,11 @@ public:
 	{
 		base();
 	}
-	void SetValueCommands(int _commands)//установить число команд для меню
+	void SetValueCommands(int _commands)//СѓСЃС‚Р°РЅРѕРІРёС‚СЊ С‡РёСЃР»Рѕ РєРѕРјР°РЅРґ РґР»СЏ РјРµРЅСЋ
 	{
 		commands = _commands;
 	}
-	int GetCommands()//узнать число команд меню
+	int GetCommands()//СѓР·РЅР°С‚СЊ С‡РёСЃР»Рѕ РєРѕРјР°РЅРґ РјРµРЅСЋ
 	{
 		return commands;
 	}
@@ -44,13 +44,13 @@ public:
 	{
 		return num;
 	}
-	void SetCommands(int num, string str)//принимает номер и строчку
+	void SetCommands(int num, string str)//РїСЂРёРЅРёРјР°РµС‚ РЅРѕРјРµСЂ Рё СЃС‚СЂРѕС‡РєСѓ
 	{
 		if (commands < num)
 			commands = num;
 		menu[num] = str;
 	}
-	void SetPositionManual(int _x, int _y)//для расположения меню экрана ручная настройка
+	void SetPositionManual(int _x, int _y)//РґР»СЏ СЂР°СЃРїРѕР»РѕР¶РµРЅРёСЏ РјРµРЅСЋ СЌРєСЂР°РЅР° СЂСѓС‡РЅР°СЏ РЅР°СЃС‚СЂРѕР№РєР°
 	{
 		x = _x;
 		y = _y;
@@ -89,11 +89,11 @@ public:
 			ammount = 1;
 		if (ammount < 1)
 			ammount = commands;
-		for (int i = 0; i <= y; i++)//сносит строку (двигает вниз)
+		for (int i = 0; i <= y; i++)//СЃРЅРѕСЃРёС‚ СЃС‚СЂРѕРєСѓ (РґРІРёРіР°РµС‚ РІРЅРёР·)
 			cout << endl;
 		for (int i = 1; i <= commands; i++)
 		{
-			for (int i = 0; i <= x; i++)//выписывает пробел(двигает вправо)
+			for (int i = 0; i <= x; i++)//РІС‹РїРёСЃС‹РІР°РµС‚ РїСЂРѕР±РµР»(РґРІРёРіР°РµС‚ РІРїСЂР°РІРѕ)
 				cout << " ";
 			if (ammount == i)
 				cout << '>' << i << " " << menu[i] << endl;
@@ -107,28 +107,28 @@ public:
 		}
 		if (trigger == true)
 		{
-			cout << "Последний пункт меню: " << getnum();
+			cout << "РџРѕСЃР»РµРґРЅРёР№ РїСѓРЅРєС‚ РјРµРЅСЋ: " << getnum();
 		}
 		cout << endl;
 		for (int i = 0; i <= x; i++)
 		{
 			cout << " ";
 		}
-		cout << "Нажмите ESC Для выхода";
+		cout << "РќР°Р¶РјРёС‚Рµ ESC Р”Р»СЏ РІС‹С…РѕРґР°";
 	}
-	void Print()//amount равна номеру пунтка меню на котором расположена стрелочка
+	void Print()//amount СЂР°РІРЅР° РЅРѕРјРµСЂСѓ РїСѓРЅС‚РєР° РјРµРЅСЋ РЅР° РєРѕС‚РѕСЂРѕРј СЂР°СЃРїРѕР»РѕР¶РµРЅР° СЃС‚СЂРµР»РѕС‡РєР°
 	{
-		while (push != 27)//для выходу из меню нажать ESC
+		while (push != 27)//РґР»СЏ РІС‹С…РѕРґСѓ РёР· РјРµРЅСЋ РЅР°Р¶Р°С‚СЊ ESC
 		{
 			system("cls");
 			NewMenu();
 			push = _getch();
 			switch (push)
 			{
-			case 80://вниз
+			case 80://РІРЅРёР·
 				ammount++;
 				break;
-			case 72://вверх
+			case 72://РІРІРµСЂС…
 				ammount--;
 				break;
 			case 13://enter
@@ -146,9 +146,9 @@ void main()
 	UserMenu menu2;
 	string str;
 	int n = 3;
-	menu1.SetValueCommands(n);//установите число команд
-	menu1.SetPosition("middle");//установите расположение меню
-	for (int i = 1; i <= n; i++)//ввод осуществлен внутри консоли
+	menu1.SetValueCommands(n);//СѓСЃС‚Р°РЅРѕРІРёС‚Рµ С‡РёСЃР»Рѕ РєРѕРјР°РЅРґ
+	menu1.SetPosition("middle");//СѓСЃС‚Р°РЅРѕРІРёС‚Рµ СЂР°СЃРїРѕР»РѕР¶РµРЅРёРµ РјРµРЅСЋ
+	for (int i = 1; i <= n; i++)//РІРІРѕРґ РѕСЃСѓС‰РµСЃС‚РІР»РµРЅ РІРЅСѓС‚СЂРё РєРѕРЅСЃРѕР»Рё
 	{
 		getline(cin, str);
 		menu1.SetCommands(i, str);
@@ -157,8 +157,8 @@ void main()
 	/*-------------------------------------------------------------*/
 	/*-------------------------------------------------------------*/
 	menu2.SetPosition("default");
-	menu2.SetCommands(1, "Пункт первый");//демонстрация внутри кода
-	menu2.SetCommands(2, "Пункт второй");
-	menu2.SetCommands(3, "Пункт третий");
+	menu2.SetCommands(1, "РџСѓРЅРєС‚ РїРµСЂРІС‹Р№");//РґРµРјРѕРЅСЃС‚СЂР°С†РёСЏ РІРЅСѓС‚СЂРё РєРѕРґР°
+	menu2.SetCommands(2, "РџСѓРЅРєС‚ РІС‚РѕСЂРѕР№");
+	menu2.SetCommands(3, "РџСѓРЅРєС‚ С‚СЂРµС‚РёР№");
 	menu2.Print();
 }
