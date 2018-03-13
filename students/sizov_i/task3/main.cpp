@@ -6,13 +6,14 @@
 #define _CRT_SECURE_NO_WARNINGS
 #define size 100
 
-//!!! Внутри класса ничего не вводить с клавиатуры!!!\\
+//!!! Внутри класса ничего не вводить(и не выводить) с клавиатуры!!!\\
 
 using namespace std;
 class UserMenu
 {
 private:
 	string menu[size];
+	bool trigger = false;//проверка
 	int commands = 0;//число команд 
 	int push = 0;//кнопка для switch
 	int x = 0; //координаты отступа
@@ -33,6 +34,10 @@ public:
 	void SetValueCommands(int _commands)//установить число команд для меню
 	{
 		commands = _commands;
+	}
+	int GetValueCommads()//добавил метод возвращения команд 
+	{
+		return commands;
 	}
 	void SetCommand(int num, string str)//принимает номер и строчку
 	{
@@ -91,7 +96,7 @@ public:
 				cout << i << " " << menu[i] << endl;
 		}
 	}
-	int CallMenu()//amount равна номеру пунтка меню на котором расположена стрелочка
+	void CallMenu()//amount равна номеру пунтка меню на котором расположена стрелочка
 	{
 		while (push != 13)
 		{
@@ -107,32 +112,30 @@ public:
 				ammount--;
 				break;
 			case 13://enter
+				trigger = true;
 				break;
 			}
 		}
-		return ammount;//возвращает выбранный нами номер меню
 	}
-	void GetCallMenu()
+	int GetCallMenu()//немного переделал возвращаемое значение
 	{
-		for (int i = 0; i <= x; i++)//цикл для того чтобы выписать номер прямо под меню(не знаю как лучше)
+		for (int i = 0; i <= x; i++)
 			cout << " ";
-		cout << CallMenu() << endl;
+		if (trigger = true)
+			return ammount;
 	}
 };
 void main()
 {
 	setlocale(LC_ALL, "Rus");
 	UserMenu menu1;
-	UserMenu menu2;
-	string str;
-	int n = 6;
-	menu1.SetValueCommands(n);//установите число команд
 	menu1.SetPosition("middle");//установите расположение меню
-	for (int i = 1; i <= n; i++)//ввод осуществлен внутри консоли
-	{
-		getline(cin, str);
-		menu1.SetCommand(i, str);
-	}
-	menu1.CallMenu();	//вызвать меню 
+	menu1.SetCommand(1, "Привет");
+	menu1.SetCommand(2, "Привет");
+	menu1.SetCommand(3, "Привет");
+	menu1.SetCommand(4, "Привет");
+	menu1.SetCommand(5, "Привет");
+	menu1.CallMenu(); //вызвать меню 
+	cout << menu1.GetCallMenu();//получить значение выбранного пункта меню
 	system("pause");
 }
