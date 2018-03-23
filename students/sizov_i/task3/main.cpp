@@ -129,12 +129,14 @@ void main()
 {
 	setlocale(LC_ALL, "Rus");
 	UserMenu menu1;
+	menu1.SetValueCommands(6);
+	string str;
 	menu1.SetPosition("middle");//установите расположение меню
-	menu1.SetCommand(1, "Привет");
-	menu1.SetCommand(2, "Привет");
-	menu1.SetCommand(3, "Привет");
-	menu1.SetCommand(4, "Привет");
-	menu1.SetCommand(5, "Привет");
+	for (int i = 0; i <= 6; i++)
+	{
+		getline(cin, str);
+		menu1.SetCommand(i, str);
+	}
 	menu1.CallMenu(); //вызвать меню 
 	cout << menu1.GetCallMenu();//получить значение выбранного пункта меню
 	system("pause");
