@@ -1,16 +1,16 @@
-#include <iostream>
+п»ї#include <iostream>
 #include <stdio.h>
 #include <string>
 #include <fstream>
 #define size 15
 using namespace std;
 
-//Данные :: название, режиссер, сценарист, композитор, дата выхода в прокат (день, месяц, год), сборы (в рублях)
-//Класс должен предоставлять следующие операции : 1) добавить фильм, 2) изменить данные выбранного фильма, 
-//3) найти фильм по названию и году, 4) выдать все фильмы заданного режиссера, 
-//5) выдать все фильмы, вышедшие в прокат в выбранном году, 6) выдать заданное число фильмов с наибольшими сборами, 
-//7) выдать заданное число фильмов с наибольшими сборами в выбранном году, 
-//8) узнать текущее число фильмов, 9) удалить фильм, 10) сохранить фильмотеку в файл, 11) считать фильмотеку из файла.
+//Р”Р°РЅРЅС‹Рµ :: РЅР°Р·РІР°РЅРёРµ, СЂРµР¶РёСЃСЃРµСЂ, СЃС†РµРЅР°СЂРёСЃС‚, РєРѕРјРїРѕР·РёС‚РѕСЂ, РґР°С‚Р° РІС‹С…РѕРґР° РІ РїСЂРѕРєР°С‚ (РґРµРЅСЊ, РјРµСЃСЏС†, РіРѕРґ), СЃР±РѕСЂС‹ (РІ СЂСѓР±Р»СЏС…)
+//РљР»Р°СЃСЃ РґРѕР»Р¶РµРЅ РїСЂРµРґРѕСЃС‚Р°РІР»СЏС‚СЊ СЃР»РµРґСѓСЋС‰РёРµ РѕРїРµСЂР°С†РёРё : 1) РґРѕР±Р°РІРёС‚СЊ С„РёР»СЊРј, 2) РёР·РјРµРЅРёС‚СЊ РґР°РЅРЅС‹Рµ РІС‹Р±СЂР°РЅРЅРѕРіРѕ С„РёР»СЊРјР°, 
+//3) РЅР°Р№С‚Рё С„РёР»СЊРј РїРѕ РЅР°Р·РІР°РЅРёСЋ Рё РіРѕРґСѓ, 4) РІС‹РґР°С‚СЊ РІСЃРµ С„РёР»СЊРјС‹ Р·Р°РґР°РЅРЅРѕРіРѕ СЂРµР¶РёСЃСЃРµСЂР°, 
+//5) РІС‹РґР°С‚СЊ РІСЃРµ С„РёР»СЊРјС‹, РІС‹С€РµРґС€РёРµ РІ РїСЂРѕРєР°С‚ РІ РІС‹Р±СЂР°РЅРЅРѕРј РіРѕРґСѓ, 6) РІС‹РґР°С‚СЊ Р·Р°РґР°РЅРЅРѕРµ С‡РёСЃР»Рѕ С„РёР»СЊРјРѕРІ СЃ РЅР°РёР±РѕР»СЊС€РёРјРё СЃР±РѕСЂР°РјРё, 
+//7) РІС‹РґР°С‚СЊ Р·Р°РґР°РЅРЅРѕРµ С‡РёСЃР»Рѕ С„РёР»СЊРјРѕРІ СЃ РЅР°РёР±РѕР»СЊС€РёРјРё СЃР±РѕСЂР°РјРё РІ РІС‹Р±СЂР°РЅРЅРѕРј РіРѕРґСѓ, 
+//8) СѓР·РЅР°С‚СЊ С‚РµРєСѓС‰РµРµ С‡РёСЃР»Рѕ С„РёР»СЊРјРѕРІ, 9) СѓРґР°Р»РёС‚СЊ С„РёР»СЊРј, 10) СЃРѕС…СЂР°РЅРёС‚СЊ С„РёР»СЊРјРѕС‚РµРєСѓ РІ С„Р°Р№Р», 11) СЃС‡РёС‚Р°С‚СЊ С„РёР»СЊРјРѕС‚РµРєСѓ РёР· С„Р°Р№Р»Р°.
 //1)+
 //2)?
 //3)+
@@ -22,20 +22,20 @@ using namespace std;
 //9)+
 //10)+
 //11)+
-struct Date //данные релиза
+struct Date //РґР°РЅРЅС‹Рµ СЂРµР»РёР·Р°
 {
 	int day;
 	int month;
 	int year;
 };
-struct Facts //данные для фильмов 
+struct Facts //РґР°РЅРЅС‹Рµ РґР»СЏ С„РёР»СЊРјРѕРІ 
 {
 	string name;
 	string producer;
 	string composer;
-	unsigned long int fees;//сборы
+	unsigned long int fees;//СЃР±РѕСЂС‹
 };
-struct Film //фильм хранит дату и прочие данные(в том числе и название)
+struct Film //С„РёР»СЊРј С…СЂР°РЅРёС‚ РґР°С‚Сѓ Рё РїСЂРѕС‡РёРµ РґР°РЅРЅС‹Рµ(РІ С‚РѕРј С‡РёСЃР»Рµ Рё РЅР°Р·РІР°РЅРёРµ)
 {
 	Date date;
 	Facts stock;
@@ -68,18 +68,18 @@ class FilmLibrary
 private:
 	Date date[size] = {};
 	Facts stock[size] = {};
-	Film film1[size] = { *date,*stock };//основной архив фильмов
-	Film tmp[size] = {};//архив фильмов не основной
+	Film film1[size] = { *date,*stock };//РѕСЃРЅРѕРІРЅРѕР№ Р°СЂС…РёРІ С„РёР»СЊРјРѕРІ
+	Film tmp[size] = {};//Р°СЂС…РёРІ С„РёР»СЊРјРѕРІ РЅРµ РѕСЃРЅРѕРІРЅРѕР№
 public:
 	FilmLibrary(Film film = {})
 	{
 
 	}
-	void AddFilm(Film film, const int i)//добавить фильм
+	void AddFilm(Film film, const int i)//РґРѕР±Р°РІРёС‚СЊ С„РёР»СЊРј
 	{
 		film1[i] = film;
 	}
-	Film GetFilmName(string name, int _year)// дать фильм по названию и году
+	Film GetFilmName(string name, int _year)// РґР°С‚СЊ С„РёР»СЊРј РїРѕ РЅР°Р·РІР°РЅРёСЋ Рё РіРѕРґСѓ
 	{
 		for (int i = 0; i < size; i++)
 		{
@@ -91,7 +91,7 @@ public:
 	{
 
 	}
-	void SetFilmProducer(string producer)//работает в паре с void PrintFilmTune()
+	void SetFilmProducer(string producer)//СЂР°Р±РѕС‚Р°РµС‚ РІ РїР°СЂРµ СЃ void PrintFilmTune()
 	{
 		int j = 0;
 		for (int i = 0; i < size; i++)
@@ -103,7 +103,7 @@ public:
 			}
 		}
 	}
-	void SetFilmYear(int _year)//работает в паре с void PrintFilmTune()
+	void SetFilmYear(int _year)//СЂР°Р±РѕС‚Р°РµС‚ РІ РїР°СЂРµ СЃ void PrintFilmTune()
 	{
 		int j = 0;
 		for (int i = 0; i < size; i++)
@@ -115,7 +115,7 @@ public:
 			}
 		}
 	}
-	void SetFilmFees(int k)//выдать фильмы с наибольшими сборами работает в паре с void PrintFilmTune()
+	void SetFilmFees(int k)//РІС‹РґР°С‚СЊ С„РёР»СЊРјС‹ СЃ РЅР°РёР±РѕР»СЊС€РёРјРё СЃР±РѕСЂР°РјРё СЂР°Р±РѕС‚Р°РµС‚ РІ РїР°СЂРµ СЃ void PrintFilmTune()
 	{
 		unsigned long int max = 0;
 		int j = -1;
@@ -136,7 +136,7 @@ public:
 			film1[j] = {};
 		}
 	}
-	void SetFilmFees(int k, int _year)//выдать фильмы с наибольшими сборами и выбранном году работает в паре с void PrintFilmTune()
+	void SetFilmFees(int k, int _year)//РІС‹РґР°С‚СЊ С„РёР»СЊРјС‹ СЃ РЅР°РёР±РѕР»СЊС€РёРјРё СЃР±РѕСЂР°РјРё Рё РІС‹Р±СЂР°РЅРЅРѕРј РіРѕРґСѓ СЂР°Р±РѕС‚Р°РµС‚ РІ РїР°СЂРµ СЃ void PrintFilmTune()
 	{
 		unsigned long int max = 0;
 		int j = -1;
@@ -160,7 +160,7 @@ public:
 			film1[j] = {};
 		}
 	}
-	int GetValueFilms()//Возвращает число фильмов
+	int GetValueFilms()//Р’РѕР·РІСЂР°С‰Р°РµС‚ С‡РёСЃР»Рѕ С„РёР»СЊРјРѕРІ
 	{
 		int num = 0;
 		for (int i = 0; i < size; i++)
@@ -170,10 +170,10 @@ public:
 		}
 		return num;
 	}
-	void PrintFilmTune()//выписывает фильмы заданного автора/ заданного года/с наибольшими сборами
+	void PrintFilmTune()//РІС‹РїРёСЃС‹РІР°РµС‚ С„РёР»СЊРјС‹ Р·Р°РґР°РЅРЅРѕРіРѕ Р°РІС‚РѕСЂР°/ Р·Р°РґР°РЅРЅРѕРіРѕ РіРѕРґР°/СЃ РЅР°РёР±РѕР»СЊС€РёРјРё СЃР±РѕСЂР°РјРё
 	{
 		for (int i = 0; i < size; i++)
-			if (tmp[i] != 0)//проверка на не ли пустой фильм 
+			if (tmp[i] != 0)//РїСЂРѕРІРµСЂРєР° РЅР° РЅРµ Р»Рё РїСѓСЃС‚РѕР№ С„РёР»СЊРј 
 				cout << tmp[i] << endl;
 	}
 	void DeleteFilm(Film tmp = {})
@@ -194,7 +194,7 @@ public:
 	}
 	void GetOutFile()
 	{
-		int count = 5 * GetValueFilms() + GetValueFilms()-1;//5  потому что каждый фильм занимает 5 строчек в консоли
+		int count = 5 * GetValueFilms() + GetValueFilms()-1;//5  РїРѕС‚РѕРјСѓ С‡С‚Рѕ РєР°Р¶РґС‹Р№ С„РёР»СЊРј Р·Р°РЅРёРјР°РµС‚ 5 СЃС‚СЂРѕС‡РµРє РІ РєРѕРЅСЃРѕР»Рё
 		string *buff=new string[count];
 		ifstream fin("note.txt");
 		for (int i = 0; i <count; i++)
@@ -211,15 +211,15 @@ public:
 
 ostream &operator<<(ostream &os, const Film &film)
 {
-	os << "день:" << film.date.day << " " << "месяц:" << film.date.month << " " << "год:" << film.date.year << endl;
-	os << "название:" << film.stock.name << "\n" << "режиссер:" << film.stock.producer << "\n" << "композитор:" << film.stock.composer << "\n" << "сборы:" << film.stock.fees << endl;
+	os << "РґРµРЅСЊ:" << film.date.day << " " << "РјРµСЃСЏС†:" << film.date.month << " " << "РіРѕРґ:" << film.date.year << endl;
+	os << "РЅР°Р·РІР°РЅРёРµ:" << film.stock.name << "\n" << "СЂРµР¶РёСЃСЃРµСЂ:" << film.stock.producer << "\n" << "РєРѕРјРїРѕР·РёС‚РѕСЂ:" << film.stock.composer << "\n" << "СЃР±РѕСЂС‹:" << film.stock.fees << endl;
 	return os;
 }
 ostream &operator<<(ostream &os, const FilmLibrary &tmp)
 {
 	for (int i = 1; i < size; i++)
 	{
-		if (tmp.film1[i] != 0)//проверка на не ли пустой фильм 
+		if (tmp.film1[i] != 0)//РїСЂРѕРІРµСЂРєР° РЅР° РЅРµ Р»Рё РїСѓСЃС‚РѕР№ С„РёР»СЊРј 
 		{
 			os << tmp.film1[i];
 			os << endl;
@@ -238,18 +238,18 @@ void main()
 	Film Angelsofdeath;
 	/*-----------------------------------------------------------*/
 
-	Library1.AddFilm(Furios = { 10,8,2004 , "Форсаж","Роб Коэн","Музыкант",123456 }, 1);
-	Library1.AddFilm(StarWars = { 11,9,2005,"Звездные войны","Джеймс Кэмерон","Моцарт",12345 }, 2);
-	Library1.AddFilm(Retribution = { 18,9,2009,  "Возмездие","Джеймс Кэмерон","Бетховен",300 }, 3);
-	Library1.AddFilm(Titanik = { 6, 04, 2009, "Титаник", "Кельвин Кльян", "Композитор", 100 }, 4);
-	Library1.AddFilm(Angelsofdeath = { 10,8,2009 , "Ангелы смерти","Роб Коэн","Чайковский",200 }, 5);
+	Library1.AddFilm(Furios = { 10,8,2004 , "Р¤РѕСЂСЃР°Р¶","Р РѕР± РљРѕСЌРЅ","РњСѓР·С‹РєР°РЅС‚",123456 }, 1);
+	Library1.AddFilm(StarWars = { 11,9,2005,"Р—РІРµР·РґРЅС‹Рµ РІРѕР№РЅС‹","Р”Р¶РµР№РјСЃ РљСЌРјРµСЂРѕРЅ","РњРѕС†Р°СЂС‚",12345 }, 2);
+	Library1.AddFilm(Retribution = { 18,9,2009,  "Р’РѕР·РјРµР·РґРёРµ","Р”Р¶РµР№РјСЃ РљСЌРјРµСЂРѕРЅ","Р‘РµС‚С…РѕРІРµРЅ",300 }, 3);
+	Library1.AddFilm(Titanik = { 6, 04, 2009, "РўРёС‚Р°РЅРёРє", "РљРµР»СЊРІРёРЅ РљР»СЊСЏРЅ", "РљРѕРјРїРѕР·РёС‚РѕСЂ", 100 }, 4);
+	Library1.AddFilm(Angelsofdeath = { 10,8,2009 , "РђРЅРіРµР»С‹ СЃРјРµСЂС‚Рё","Р РѕР± РљРѕСЌРЅ","Р§Р°Р№РєРѕРІСЃРєРёР№",200 }, 5);
 	// cout << Library1;
 	/*-----------------------------------------------------------*/
-	//cout << Library1.GetFilmName("Форсаж", 2004) << endl;//true
-	//Library1.SetFilmProducer("Джеймс Кэмерон");//true
+	//cout << Library1.GetFilmName("Р¤РѕСЂСЃР°Р¶", 2004) << endl;//true
+	//Library1.SetFilmProducer("Р”Р¶РµР№РјСЃ РљСЌРјРµСЂРѕРЅ");//true
 	//Library1.SetFilmYear(2009);true
 	//Library1.SetFilmFees(5);
-	Library1.PrintFilmTune();
+	//Library1.PrintFilmTune();
 	//cout << Library1.GetValueFilms();
 	//Library1.DeleteFilm(StarWars);
 	//Library1.SaveInFile();
