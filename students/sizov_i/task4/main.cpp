@@ -12,7 +12,7 @@ using namespace std;
 //7) выдать заданное число фильмов с наибольшими сборами в выбранном году, 
 //8) узнать текущее число фильмов, 9) удалить фильм, 10) сохранить фильмотеку в файл, 11) считать фильмотеку из файла.
 //1)+
-//2)?
+//2)+
 //3)+
 //4)+
 //5)+
@@ -71,10 +71,6 @@ private:
 	Film film1[size] = { *date,*stock };//основной архив фильмов
 	Film tmp[size] = {};//архив фильмов не основной
 public:
-	FilmLibrary(Film film = {})
-	{
-
-	}
 	void AddFilm(Film film, const int i)//добавить фильм
 	{
 		film1[i] = film;
@@ -87,9 +83,41 @@ public:
 				return film1[i];
 		}
 	}
-	void SetChanges(int _day, int _month,int _year)
+	Film SetChanges(Film film, string str, unsigned long int tmp)
 	{
-
+		for (int i = 1; i < size; i++)
+		{
+			if (film1[i] == film&&film1[i] != 0)
+			{
+				if (str == "день")
+					film.date.day = tmp;
+				if (str == "месяц")
+					film.date.month = tmp;
+				if (str == "год")
+					film.date.year = tmp;
+				if (str == "сборы")
+					film.stock.fees = tmp;
+				film1[i] = film;
+			}
+		}
+		return film;
+	}
+	Film SetChanges(Film film, string str, string tmp)
+	{
+		for (int i = 1; i < size; i++)
+		{
+			if (film1[i] == film&&film1[i]!=0)
+			{
+				if (str == "название")
+					film.stock.name = tmp;
+				if (str == "режисер")
+					film.stock.producer = tmp;
+				if (str == "композитор")
+					film.stock.composer = tmp;
+				film1[i] = film;
+			}
+		}
+		return film;
 	}
 	void SetFilmProducer(string producer)//работает в паре с void PrintFilmTune()
 	{
@@ -243,8 +271,10 @@ void main()
 	Library1.AddFilm(Retribution = { 18,9,2009,  "Возмездие","Джеймс Кэмерон","Бетховен",300 }, 3);
 	Library1.AddFilm(Titanik = { 6, 04, 2009, "Титаник", "Кельвин Кльян", "Композитор", 100 }, 4);
 	Library1.AddFilm(Angelsofdeath = { 10,8,2009 , "Ангелы смерти","Роб Коэн","Чайковский",200 }, 5);
-	// cout << Library1;
+	//cout << Library1;
 	/*-----------------------------------------------------------*/
+	//Library1.SetChanges(Angelsofdeath, "год", 2008);
+	//cout << Library1 << endl;
 	//cout << Library1.GetFilmName("Форсаж", 2004) << endl;//true
 	//Library1.SetFilmProducer("Джеймс Кэмерон");//true
 	//Library1.SetFilmYear(2009);true
