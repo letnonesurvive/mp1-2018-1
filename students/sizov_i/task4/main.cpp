@@ -1,8 +1,13 @@
 ﻿#include <iostream>
 #include <stdio.h>
 #include <string>
+#include <sstream>
+#include <cstdlib>
 #include <fstream>
+#include <vector>
+#include <algorithm>
 #define size 15
+#define CRT_SECURE_NO_WARNINGS
 using namespace std;
 
 //Данные :: название, режиссер, сценарист, композитор, дата выхода в прокат (день, месяц, год), сборы (в рублях)
@@ -71,7 +76,7 @@ private:
 	Film film1[size] = { *date,*stock };//основной архив фильмов
 	Film tmp[size] = {};//архив фильмов не основной
 public:
-	void AddFilm(Film film, const int i)//добавить фильм
+	void AddFilm(Film film, int i)//добавить фильм
 	{
 		film1[i] = film;
 	}
@@ -106,7 +111,7 @@ public:
 	{
 		for (int i = 1; i < size; i++)
 		{
-			if (film1[i] == film&&film1[i]!=0)
+			if (film1[i] == film&&film1[i] != 0)
 			{
 				if (str == "название")
 					film.stock.name = tmp;
@@ -153,7 +158,7 @@ public:
 			max = 0;
 			for (int i = 0; i < size; i++)
 			{
-				if (film1[i].stock.fees>max)
+				if (film1[i].stock.fees > max)
 				{
 					max = film1[i].stock.fees;
 					j = i;
@@ -174,7 +179,7 @@ public:
 			max = 0;
 			for (int i = 0; i < size; i++)
 			{
-				if (film1[i].stock.fees>max)
+				if (film1[i].stock.fees > max)
 				{
 					if (film1[i].date.year == _year)
 					{
@@ -214,24 +219,117 @@ public:
 			}
 		}
 	}
-	void SaveInFile()
+	void SaveInFile(string name)
 	{
-		ofstream fout("note.txt");
+		ofstream fout(name);
 		fout << *this << endl;
 		fout.close();
 	}
-	void GetOutFile()
+	void GetOutFile(string name)
 	{
-		int count = 5 * GetValueFilms() + GetValueFilms()-1;//5  потому что каждый фильм занимает 5 строчек в консоли
-		string *buff=new string[count];
+		int k = 0;
+		int num = 1;
+		bool wou = false;
+		string str = {};
+		string tmp = {};
+		Film film = {};
+		FilmLibrary lib1;
 		ifstream fin("note.txt");
-		for (int i = 0; i <count; i++)
+		while (getline(fin, str))
 		{
-			getline(fin, buff[i]);
-			cout << buff[i] << endl;
+			for (int i = 0; i < str.length() + 1; i++)
+			{
+				if (str[i] == '\0')
+					break;
+				if (str[i] == ':'&&str[i - 1] == 'ь')
+				{
+					tmp = {};
+					k = i + 1;
+					while (str[k] != '\0')
+					{
+						tmp += str[k];
+						k++;
+					}
+					film.date.day = atoi(tmp.c_str());
+				}
+				if (str[i] == ':'&&str[i - 1] == 'ц')
+				{
+					tmp = {};
+					k = i + 1;
+					while (str[k] != '\0')
+					{
+						tmp += str[k];
+						k++;
+					}
+					film.date.month = atoi(tmp.c_str());
+				}
+				if (str[i] == ':'&&str[i - 1] == 'д')
+				{
+					tmp = {};
+					k = i + 1;
+					while (str[k] != '\0')
+					{
+						tmp += str[k];
+						k++;
+					}
+					film.date.year = atoi(tmp.c_str());
+				}
+				if (str[i] == ':'&&str[i - 1] == 'е')
+				{
+					tmp = {};
+					k = i + 1;
+					while (str[k] != '\0')
+					{
+						tmp += str[k];
+						k++;
+					}
+					film.stock.name = tmp;
+				}
+				if (str[i] == ':'&&str[i - 1] == 'р'&&str[i - 2] != 'о')
+				{
+					tmp = {};
+					k = i + 1;
+					while (str[k] != '\0')
+					{
+						tmp += str[k];
+						k++;
+					}
+					film.stock.producer = tmp;
+				}
+				if (str[i] == ':'&&str[i - 2] == 'о'&&str[i - 1] == 'р')
+				{
+					tmp = {};
+					k = i + 1;
+					while (str[k] != '\0')
+					{
+						tmp += str[k];
+						k++;
+					}
+					film.stock.composer = tmp;
+				}
+				if (str[i] == ':'&&str[i - 1] == 'ы')
+				{
+					tmp = {};
+					k = i + 1;
+					while (str[k] != '\0')
+					{
+						tmp += str[k];
+						k++;
+					}
+					film.stock.fees = strtoul(tmp.c_str(), NULL, 0);
+					wou = true;
+				}
+				if (wou)
+				{
+					lib1.AddFilm(film, num);
+					num = num + 1;
+					wou = false;
+					break;
+				}
+			}
 		}
+		cout << lib1;
 		fin.close();
-		delete[] buff;
 	}
 	friend ostream &operator<<(ostream &os, const Film &film);
 	friend ostream &operator<<(ostream &os, const FilmLibrary &tmp);
@@ -239,7 +337,7 @@ public:
 
 ostream &operator<<(ostream &os, const Film &film)
 {
-	os << "день:" << film.date.day << " " << "месяц:" << film.date.month << " " << "год:" << film.date.year << endl;
+	os << "день:" << film.date.day << "\n" << "месяц:" << film.date.month << "\n" << "год:" << film.date.year << endl;
 	os << "название:" << film.stock.name << "\n" << "режиссер:" << film.stock.producer << "\n" << "композитор:" << film.stock.composer << "\n" << "сборы:" << film.stock.fees << endl;
 	return os;
 }
@@ -272,6 +370,7 @@ void main()
 	Library1.AddFilm(Titanik = { 6, 04, 2009, "Титаник", "Кельвин Кльян", "Композитор", 100 }, 4);
 	Library1.AddFilm(Angelsofdeath = { 10,8,2009 , "Ангелы смерти","Роб Коэн","Чайковский",200 }, 5);
 	//cout << Library1;
+
 	/*-----------------------------------------------------------*/
 	//Library1.SetChanges(Angelsofdeath, "год", 2008);
 	//cout << Library1 << endl;
@@ -282,7 +381,7 @@ void main()
 	//Library1.PrintFilmTune();
 	//cout << Library1.GetValueFilms();
 	//Library1.DeleteFilm(StarWars);
-	//Library1.SaveInFile();
-	//Library1.GetOutFile();
+	//Library1.SaveInFile("note.txt");
+	Library1.GetOutFile("note.txt");
 	system("pause");
 }
