@@ -37,6 +37,7 @@ struct Facts //данные для фильмов
 {
 	string name;
 	string producer;
+	string screenwriter;//сценарист
 	string composer;
 	unsigned long int fees;//сборы
 };
@@ -50,22 +51,23 @@ struct Film //фильм хранит дату и прочие данные(в �
 		this->date.month = tmp1.date.month;
 		this->date.year = tmp1.date.year;
 		this->stock.name = tmp1.stock.name;
-		this->stock.composer = tmp1.stock.composer;
 		this->stock.producer = tmp1.stock.producer;
+		this->stock.composer = tmp1.stock.composer;
+		this->stock.screenwriter = tmp1.stock.screenwriter;
 		this->stock.fees = tmp1.stock.fees;
 		return *this;
 	}
 	bool operator ==(const Film &tmp1) const
 	{
-		return (this->date.day == tmp1.date.day && this->date.month == tmp1.date.month&&this->date.year == tmp1.date.year&& this->stock.name == tmp1.stock.name&& this->stock.composer == tmp1.stock.composer&& this->stock.producer == tmp1.stock.producer&& this->stock.fees == tmp1.stock.fees);
+		return (this->date.day == tmp1.date.day && this->date.month == tmp1.date.month&&this->date.year == tmp1.date.year&& this->stock.name == tmp1.stock.name&& this->stock.composer == tmp1.stock.composer&& this->stock.producer == tmp1.stock.producer&&this->stock.screenwriter == tmp1.stock.screenwriter&& this->stock.fees == tmp1.stock.fees);
 	}
 	bool operator !=(const Film &tmp1) const
 	{
-		return !(this->date.day == 0 && this->date.month == 0 && this->date.year == 0 && this->stock.name == "" && this->stock.composer == "" && this->stock.producer == "" && this->stock.fees == 0);
+		return !(this->date.day == 0 && this->date.month == 0 && this->date.year == 0 && this->stock.name == "" && this->stock.composer == "" && this->stock.producer == "" &&this->stock.screenwriter == ""&&this->stock.fees == 0);
 	}
 	bool operator !=(const int &tmp) const
 	{
-		return !(this->date.day == 0 && this->date.month == 0 && this->date.year == 0 && this->stock.name == "" && this->stock.composer == "" && this->stock.producer == "" && this->stock.fees == 0);
+		return !(this->date.day == 0 && this->date.month == 0 && this->date.year == 0 && this->stock.name == "" && this->stock.composer == "" && this->stock.producer == "" &&this->stock.screenwriter == ""&& this->stock.fees == 0);
 	}
 };
 class FilmLibrary
@@ -75,10 +77,24 @@ private:
 	Facts stock[size] = {};
 	Film film1[size] = { *date,*stock };//основной архив фильмов
 	Film tmp[size] = {};//архив фильмов не основной
+	size_t num = 0;
 public:
-	void AddFilm(Film film, int i)//добавить фильм
+	void AddFilm(Film film)//добавить фильм
 	{
-		film1[i] = film;
+		film1[num] = film;
+		num += 1;
+		for (int i = 0; i < size - 1; i++)
+		{
+			for (int j = 0; j < size - 1; j++)
+			{
+				if (film1[j + 1].stock.name < film1[j].stock.name&&film1[j + 1].date.year == film1[j].date.year)
+				{
+					film = film1[j + 1];
+					film1[j + 1] = film1[j];
+					film1[j] = film;
+				}
+			}
+		}
 	}
 	Film GetFilmName(string name, int _year)// дать фильм по названию и году
 	{
@@ -109,7 +125,7 @@ public:
 	}
 	Film SetChanges(Film film, string str, string tmp)
 	{
-		for (int i = 1; i < size; i++)
+		for (int i = 0; i < size; i++)
 		{
 			if (film1[i] == film&&film1[i] != 0)
 			{
@@ -228,7 +244,7 @@ public:
 	void GetOutFile(string name)
 	{
 		int k = 0;
-		int num = 1;
+		int num = 0;
 		bool wou = false;
 		string str = {};
 		string tmp = {};
@@ -296,6 +312,17 @@ public:
 					}
 					film.stock.producer = tmp;
 				}
+				if (str[i] == ':'&&str[i - 1] == 'т')
+				{
+					tmp = {};
+					k = i + 1;
+					while (str[k] != '\0')
+					{
+						tmp += str[k];
+						k++;
+					}
+					film.stock.screenwriter = tmp;
+				}
 				if (str[i] == ':'&&str[i - 2] == 'о'&&str[i - 1] == 'р')
 				{
 					tmp = {};
@@ -321,8 +348,7 @@ public:
 				}
 				if (wou)
 				{
-					lib1.AddFilm(film, num);
-					num = num + 1;
+					lib1.AddFilm(film);
 					wou = false;
 					break;
 				}
@@ -338,12 +364,12 @@ public:
 ostream &operator<<(ostream &os, const Film &film)
 {
 	os << "день:" << film.date.day << "\n" << "месяц:" << film.date.month << "\n" << "год:" << film.date.year << endl;
-	os << "название:" << film.stock.name << "\n" << "режиссер:" << film.stock.producer << "\n" << "композитор:" << film.stock.composer << "\n" << "сборы:" << film.stock.fees << endl;
+	os << "название:" << film.stock.name << "\n" << "режиссер:" << film.stock.producer << "\n" << "сценарист:" << film.stock.screenwriter << "\n" << "композитор:" << film.stock.composer << "\n" << "сборы:" << film.stock.fees << endl;
 	return os;
 }
 ostream &operator<<(ostream &os, const FilmLibrary &tmp)
 {
-	for (int i = 1; i < size; i++)
+	for (int i = 0; i < size; i++)
 	{
 		if (tmp.film1[i] != 0)//проверка на не ли пустой фильм 
 		{
@@ -364,13 +390,12 @@ void main()
 	Film Angelsofdeath;
 	/*-----------------------------------------------------------*/
 
-	Library1.AddFilm(Furios = { 10,8,2004 , "Форсаж","Роб Коэн","Музыкант",123456 }, 1);
-	Library1.AddFilm(StarWars = { 11,9,2005,"Звездные войны","Джеймс Кэмерон","Моцарт",12345 }, 2);
-	Library1.AddFilm(Retribution = { 18,9,2009,  "Возмездие","Джеймс Кэмерон","Бетховен",300 }, 3);
-	Library1.AddFilm(Titanik = { 6, 04, 2009, "Титаник", "Кельвин Кльян", "Композитор", 100 }, 4);
-	Library1.AddFilm(Angelsofdeath = { 10,8,2009 , "Ангелы смерти","Роб Коэн","Чайковский",200 }, 5);
+	Library1.AddFilm(Furios = { 10,8,2004 , "Форсаж","Роб Коэн","Андрей Мартынов","Музыкант",123456 });
+	Library1.AddFilm(StarWars = { 11,9,2005,"Звездные войны","Джеймс Кэмерон","Вячеслав Поляк","Моцарт",12345 });
+	Library1.AddFilm(Retribution = { 18,9,2009,  "Возмездие","Джеймс Кэмерон","Сергей Плотников","Бетховен",300 });
+	Library1.AddFilm(Titanik = { 6, 04, 2009, "Титаник", "Кельвин Кльян","Томми Хилфигер", "Композитор", 100 });
+	Library1.AddFilm(Angelsofdeath = { 10,8,2009 , "Ангелы смерти","Роб Коэн","Александр Богачев","Чайковский",200 });
 	//cout << Library1;
-
 	/*-----------------------------------------------------------*/
 	//Library1.SetChanges(Angelsofdeath, "год", 2008);
 	//cout << Library1 << endl;
