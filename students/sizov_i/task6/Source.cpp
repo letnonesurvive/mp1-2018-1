@@ -97,7 +97,7 @@ public:
 	}
 	void SetMaxTail(int _maxtail)
 	{
-		if(_maxtail>tail)
+		if (_maxtail>tail)
 			maxtail = _maxtail;
 		else throw;
 	}
@@ -223,7 +223,7 @@ public:
 		}
 		setposition(0, m + 2);
 		cout << "Score:" << score << " ";
-		if(s.dir==s.Stop)
+		if (s.dir == s.Stop)
 			cout << "Press Enter" << endl;
 	}
 	friend class Food;

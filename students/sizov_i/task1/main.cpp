@@ -1,6 +1,7 @@
 ﻿#include <iostream>
 #include <string>
-#include <stdlib.h>
+//#include <stdlib.h>
+#include <cstring>
 #include <cstdlib>
 #include <locale>
 using namespace std;
@@ -268,7 +269,6 @@ private:
 };
 void main()
 {
-	setlocale(LC_ALL, "Rus");
 	LongNumber a("5");
 	LongNumber b("25");
 	LongNumber c = a*b;//true 
